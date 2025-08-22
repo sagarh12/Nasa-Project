@@ -23,3 +23,10 @@ server => own package.json
 root => one package.json at the root level as well  
 
 # always create package.json by : npm init 
+
+# we are given the frontend with package json
+1. now we need to install the dependencies : 1. cd client 
+                                             2. npm install 
+                                             3. npm start
+
+                                             
