@@ -1,3 +1,25 @@
-client : for frontend
-server: for backend
+client : for frontend ( web Application) 
+server: for backend (node API)
 
+# web Application -> http request -> Node API
+
+# we are using Express : most used pattern in express is MVC
+
+# MVC 
+ USER ->use -> CONTROLLER -> manipulates -> MODEL -> updates -> VIEW -> see -> USER 
+
+# Folders inside server
+1. models : for MVC
+2. Routes : for different routers
+   inside it : controllers : defines how we response to that specific route
+
+# Folders in root 
+1. client 
+2. server
+
+# It is a good practise to separate packages for both client and server
+client => own package.json
+server => own package.json
+root => one package.json at the root level as well  
+
+# always create package.json by : npm init 
