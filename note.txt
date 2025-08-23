@@ -157,3 +157,31 @@ ex. google and send request to google server not the facebook server
 @ IN app.js
 1. const cors = require('cors')
 2. app.use(cors({origin: 'http://localhost:3000'}))
+
+
+NOTE: 
+1. for each router we have one unique controller
+2. for each controller we might have one or many models
+3. for each model we might have one for many controllers 
+
+# Inside planet.model.js we have changed it to 
+fs.createReadStream('kepler_data.csv')
+  .pipe(parse({
+    comment: '#',
+    columns: true,
+  }))
+  .on('data', (data) => {
+    if (isHabitablePlanet(data)) {
+      habitablePlanets.push(data);
+    }
+  })
+
+
+# .parse => goes line by line for csv data and converts into javascript objects
+# .on => helps for checking certain conditions on javascript object created by parse 
+
+# we need to install csv parse lib : npm install csv-parse ( inside server )
+
+NOTE : 
+CLIENT -> send request -> CONTROLLER -> send request -> MODEL -> before the data even loads the exports function returns it, and we might get an empty list 
+
