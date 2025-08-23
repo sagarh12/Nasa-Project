@@ -46,3 +46,39 @@ root => one package.json at the root level as well
 1. so put src folder in server
 2. move all js code in it 
 3. also move models. routes into src
+
+NOTE ; make  .gitignore and place /node_modules inside it 
+
+# working on server.js
+we can run client and server side on different ports
+here client => 3001 and server => 8000
+
+const PORT = process.env.PORT || 8000
+if port already exist in the environment and is running then run on it else use port 8000
+
+# setting up express in server.js
+1. const express = require('express')
+2. const app = express()
+3. app.listen()
+
+# creating http 
+1. const http = require('http')
+2. const server = http.createServer(app)
+3. server.listen(PORT, ()=>{
+    console.log(`listening on port ${PORT}`)
+   }) 
+
+NOTE: http.createServer(app)
+we passed 'app' here from our express as any middleware and route handlers attached to app will respond to request coming tp our server 
+
+request -> http -> app => respond using middleware and route handlers 
+
+express is just fancy listner function our build in node http server 
+
+# app.js
+=> has express code : helps separating our server functionality from sever in server.js
+move all express code here 
+1. const express = require('express')
+2. const app = express()
+3. modules.exports ={app}
+server.js : const app = require('./app')
