@@ -29,4 +29,20 @@ root => one package.json at the root level as well
                                              2. npm install 
                                              3. npm start
 
-                                             
+# So we are having our API request to be embedded into request.js under hooks 
+
+# setting up npm package in server side 
+1. cd server 
+2. npm init -y
+2. npm install express
+
+# Installing nodemon : helps preventing restaring the code again and again 
+1. npm i nodemon
+2. in package json under script =>   "watch": "nodemon src/server.js",
+                                     "start": "node src/server.js"
+
+
+# Try to follow similar pattern as of client 
+1. so put src folder in server
+2. move all js code in it 
+3. also move models. routes into src
