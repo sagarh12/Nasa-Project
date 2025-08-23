@@ -82,3 +82,78 @@ move all express code here
 2. const app = express()
 3. modules.exports ={app}
 server.js : const app = require('./app')
+
+
+# Returning planets from our API
+1. making router using express 
+const express = require('express')
+const planetRouter = express.Router()
+
+const getAllPlanets = require('./planets.controller')
+
+@ we need to get all planets 
+planetRouter.get('/planets', getAllPlanets).   // getAllPlanets : this function will come from controllers
+
+@ we need to export 
+module.exports = {planetRouter}
+
+@ In planets.controller.js
+function getAllPlanets(req, res){
+  return res.status(200).json(planets).   // so planets is the data that we are accesisng so we have our files in models 
+}
+module.exports = {getAllPlanets}
+
+@ IN planets.model.js
+const planets = []
+module.exports = {planets}
+
+@ In apps.js 
+const planetsRouter = require('./routes/planets/planets.router')
+app.use(planetsRouter)
+
+
+NOTE : Routers makes direct use of conrollers so better place these files together
+
+MODEL -> planets -> CONTROLLER -> getAllPlanets -> ROUTER -> planetRouter
+
+
+# Fetching. it on client side 
+
+@ IN request.js
+under getAllPlanets
+fetch(port of the server)
+
+async function httpGetPlanets() {
+  const response = await fetch('http://localhost:8000/planets')
+  return await response.json()
+}
+
+
+
+
+NOTE: fetch return a promise so use await under asyn function 
+       json() also returns a promise so use await under asyn function  
+
+
+# As soon as we start client there is CORES error
+
+CORE = cross origin request 
+=> request made on one origin to a different origin 
+
+origin = protocol + host + port
+example http://www.google.com:443/maps/
+protocol = http://
+host = www.google.com
+port = 443 
+
+=> as a security feature same origin and send request to server of that origin not the different ones
+ex. google and send request to google server not the facebook server
+
+=> For cross origin request : Acess-Control-Allow-Origin: http:/www.google.com
+
+=> installing CORS 
+1. npm install cors
+
+@ IN app.js
+1. const cors = require('cors')
+2. app.use(cors({origin: 'http://localhost:3000'}))
