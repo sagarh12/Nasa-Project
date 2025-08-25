@@ -37,4 +37,41 @@ const result =[]
 fs.createReadStream('kepler_data.csv')      // gives event emitter
 .on('data', (data)=> { result.push(data) })
 .on('error', (error) => {console.log(error)})  
-.on('end', ()=> {console.log(result); console.log('done')})
+.on('end', ()=> {console.log(result); console.log('done')})  
+
+NOTE: now it returns data in stream of bytes
+=> so we have pipe function : connects readable stream source to writable stream destination : readable.pipe(writable)
+.pipe(parse())
+
+fs.createReadStream('kepler_data.csv')      
+.pipe(parse({
+    comment: '#';              // we saying it to treat lines staring with # to be comment 
+    columns: true;              // returns each row as a js obeject 
+}))
+.on('data', (data)=> { result.push(data) })
+.on('error', (error) => {console.log(error)})  
+.on('end', ()=> {console.log(result); console.log('done')})  
+
+
+# FINDING habitable Planets
+
+const parse = require('csv-parse')
+const fs = require('fs')
+
+const result =[]
+
+function habitablePlanets(planet)
+return planet['koi_disposition'] === 'CONFIRMED' && planet['koi_insol']>0.36 && panet['koi_insol]< 1.1 ; 
+
+fs.createReadStream('kepler_data.csv')      
+.pipe(parse({
+    comment: '#';              
+    columns: true;              
+}))
+.on('data', (data)=> { 
+    if(habitablePlanets){
+        result.push(data)
+        } 
+     })
+.on('error', (error) => {console.log(error)})  
+.on('end', ()=> {console.log(result); console.log('done')})  
