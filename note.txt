@@ -180,8 +180,109 @@ fs.createReadStream('kepler_data.csv')
 # .parse => goes line by line for csv data and converts into javascript objects
 # .on => helps for checking certain conditions on javascript object created by parse 
 
-# we need to install csv parse lib : npm install csv-parse ( inside server )
+# we need to install csv-parse lib : npm install csv-parse ( inside server )
 
 NOTE : 
 CLIENT -> send request -> CONTROLLER -> send request -> MODEL -> before the data even loads the exports function returns it, and we might get an empty list 
 
+FIX for the above problem 
+
+1. creating js promise for the data loading
+2. wait until the data loads before we accept any incoming request 
+
+
+# Promise
+1. const promise = new Promise();
+2. promise.then((result)=>{})
+
+example: 
+const promise = new Promise((resolve,reject)=> { resolve(42) });
+1. promise.then((42)=>{})
+2. const result = await promise     // await until the promise resolves 
+  
+
+# Fixing the issue by making sure that we have our list of habitable planets before the request from an API
+
+
+1. putting all data processing inside a function 
+
+
+function loadPlanetsData(){
+
+
+function isHabitablePlanet(planet) {
+  return planet['koi_disposition'] === 'CONFIRMED'
+    && planet['koi_insol'] > 0.36 && planet['koi_insol'] < 1.11
+    && planet['koi_prad'] < 1.6;
+}
+fs.createReadStream('kepler_data.csv')
+  .pipe(parse({
+    comment: '#',
+    columns: true,
+  }))
+  .on('data', (data) => {
+    if (isHabitablePlanet(data)) {
+      habitablePlanets.push(data);
+    }
+  })
+  .on('error', (err) => {
+    console.log(err);
+  })
+  .on('end', () => {
+    console.log(habitablePlanets.map((planet) => {
+      return planet['kepler_name'];
+    }));
+    console.log(`${habitablePlanets.length} habitable planets found!`);
+  });
+
+
+}
+
+
+
+2. we return a promise which resolves when our habitable Planets are found 
+   and we wait for that promise to resolve before listening to any additional request 
+
+
+function loadPlanetsData(){
+
+return new Promise((resolve, reject)=> { 
+
+function isHabitablePlanet(planet) {
+  return planet['koi_disposition'] === 'CONFIRMED'
+    && planet['koi_insol'] > 0.36 && planet['koi_insol'] < 1.11
+    && planet['koi_prad'] < 1.6;
+}
+fs.createReadStream('kepler_data.csv')
+  .pipe(parse({
+    comment: '#',
+    columns: true,
+  }))
+  .on('data', (data) => {
+    if (isHabitablePlanet(data)) {
+      habitablePlanets.push(data);
+    }
+  })
+  .on('error', (err) => {
+    console.log(err);
+    reject(error)                                                          // rejecting if we receive any error
+  })
+  .on('end', () => {
+    console.log(`${habitablePlanets.length} habitable planets found!`);
+    resolve();                                                              // calling it when we are done parsing the data
+  });
+
+
+})
+}
+
+
+3. also exporting our loadPlanetsData 
+
+module.exports = {loadPlanetData, planets: habitablePlanets}
+
+
+4. go to server.js to setup await request 
+
+const {loadPlanetData} = require('./models/planets.model')
+await loadPlanetData();
