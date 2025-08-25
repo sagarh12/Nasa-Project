@@ -1,0 +1,40 @@
+1. downloading the data in CSV format 
+2. saving the file under Data folder in csv format
+
+NOTE : CSV => Comman separtared values 
+
+We can read these kind of files using file system module 
+=> const fs = require('fs')
+
+
+But file system module cant directly read it so we have 3rd party modules for this
+which helps in reading the full document  
+
+=> csv-parse package module helps in this as it converts CSV input into array or objects  
+# installing 
+1. npm install csv-parse
+
+NOTE 
+1. event are emitted by node 
+2. we react to events on that stream using '.on()' function 
+
+NOTE
+1. const parse = require('csv-parse')
+2. it returns a function parse()
+3. this function returns an event emitter 
+4. event emitter deals with stream of data
+
+NOTE 
+1. file system module : opens a file and to read it as a string of text 
+2. fs.createReadStream = gives us back a readable stream  
+
+# make a file index.js ( in the root )
+
+const parse = require('csv-parse')
+const fs = require('fs')
+
+const result =[]
+fs.createReadStream('kepler_data.csv')      // gives event emitter
+.on('data', (data)=> { result.push(data) })
+.on('error', (error) => {console.log(error)})  
+.on('end', ()=> {console.log(result); console.log('done')})
