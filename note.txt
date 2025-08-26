@@ -285,4 +285,16 @@ module.exports = {loadPlanetData, planets: habitablePlanets}
 4. go to server.js to setup await request 
 
 const {loadPlanetData} = require('./models/planets.model')
+
+async function startServer(app){
 await loadPlanetData();
+server.listen(PORT, ()=>{
+    console.log(`listening on port ${PORT}`)
+})
+}
+
+startServer();
+
+4. also add path module 
+1. const path = require('path')
+2. fs.createReadStream(path.join(__dirname, '..', '..','data','kepler_data.csv'))

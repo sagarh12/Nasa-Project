@@ -1,5 +1,7 @@
-const parse = require('csv-parse');
+const path = require('path')
 const fs = require('fs');
+const { parse } = require('csv-parse');
+
 
 const habitablePlanets = [];
 
@@ -12,7 +14,7 @@ function isHabitablePlanet(planet) {
     && planet['koi_insol'] > 0.36 && planet['koi_insol'] < 1.11
     && planet['koi_prad'] < 1.6;
 }
-fs.createReadStream('kepler_data.csv')
+fs.createReadStream(path.join(__dirname, '..', '..','data','kepler_data.csv'))
   .pipe(parse({
     comment: '#',
     columns: true,
@@ -36,4 +38,4 @@ fs.createReadStream('kepler_data.csv')
 }
 
 
-module.exports = {loadPlanetData, planets: habitablePlanets}
+module.exports = {loadPlanetsData, planets: habitablePlanets}
