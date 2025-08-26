@@ -298,3 +298,26 @@ startServer();
 4. also add path module 
 1. const path = require('path')
 2. fs.createReadStream(path.join(__dirname, '..', '..','data','kepler_data.csv'))
+
+
+# Now that we are rinning 2 different ports one for server and one for client so lets make a common port for them 
+
+=> in package Json we will write some scripts which will help us run some of these common tasks 
+tasks like
+1. running the server first 
+2. running the client 
+
+"scripts": {
+    "server": "cd server && npm run watch",
+    "client": "cd client && npm start",
+    "watch": "",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+
+# Better Way
+
+"server": "npm run watch --prefix server",
+"client": "npm start --prefix client",
+
+# Running in one command
+  "watch": "npm run server & npm run client ",
