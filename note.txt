@@ -343,3 +343,19 @@ Now though we have both client and server running simultanously but they are run
 
 => root of project : npm run server
 
+NOTE: in root package json: inside script => "deploy":"npm run build --prefix client && npm start --prefix server", 
+
+
+
+# Writing middleware for handling logging request 
+=> Morgan : helps redirect logs to various different streams (like files or some log server on internet)
+          : has some pre defined format for logging Eg. Combined
+
+Installing 
+1. in the root : npm install morgan 
+2. @ inside app.js : 
+const morgan = require('morgan')
+app.use(morgan("combined'))
+
+=> now it login in all the request which we have made on the client side on our our server request like if we 
+switch the pages basically do anything on the client side
