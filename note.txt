@@ -321,3 +321,21 @@ tasks like
 
 # Running in one command
   "watch": "npm run server & npm run client ",
+
+Now though we have both client and server running simultanously but they are running on differnet ports that is 3000 and 8000
+
+# To correct the above
+
+@ IN the Client package.json
+1. "build": "BUILD_PATH=../server/public react-scripts build"
+2. npm run build ( inside client )
+
+=> a new public file is created in the server
+
+@ In the server app.js
+
+1. const path = require('path')
+2. after express.json
+3. app.use(express.static(path.join(__dirname, '..', 'public')))
+
+=> root of project : npm run server

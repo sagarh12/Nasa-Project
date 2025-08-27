@@ -5,15 +5,16 @@ const { parse } = require('csv-parse');
 
 const habitablePlanets = [];
 
-function loadPlanetsData(){
-
-return new Promise((resolve, reject)=> { 
-
 function isHabitablePlanet(planet) {
   return planet['koi_disposition'] === 'CONFIRMED'
     && planet['koi_insol'] > 0.36 && planet['koi_insol'] < 1.11
     && planet['koi_prad'] < 1.6;
 }
+
+function loadPlanetsData(){
+
+return new Promise((resolve, reject)=> { 
+
 fs.createReadStream(path.join(__dirname, '..', '..','data','kepler_data.csv'))
   .pipe(parse({
     comment: '#',
@@ -37,5 +38,8 @@ fs.createReadStream(path.join(__dirname, '..', '..','data','kepler_data.csv'))
 })
 }
 
+function getAllPlanets() {
+  return habitablePlanets;
+}
 
-module.exports = {loadPlanetsData, planets: habitablePlanets}
+module.exports = { loadPlanetsData, getAllPlanets };
