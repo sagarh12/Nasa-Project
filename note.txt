@@ -359,3 +359,21 @@ app.use(morgan("combined'))
 
 => now it login in all the request which we have made on the client side on our our server request like if we 
 switch the pages basically do anything on the client side
+
+# similar to planets lets make lauches model 
+
+1. make launches.model.js
+2. const launch = {
+    mission: "kepler Exploration X",
+    rocket: "explorer IS1",
+    rocket: new Date('december 27, 2030')
+    destinatoion : "kepler-442 b",
+    customer : ['ZTM', 'NASA']
+    upcoming: true, 
+    success: true, 
+}
+
+3. const launches = new Map()
+   launches.set(launch.flightNumber, launch).      // launch.flightNumber = key and launch : all data will attach to that key 
+
+4. module.exports = { launches }
