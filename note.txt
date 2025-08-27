@@ -337,5 +337,9 @@ Now though we have both client and server running simultanously but they are run
 1. const path = require('path')
 2. after express.json
 3. app.use(express.static(path.join(__dirname, '..', 'public')))
+4. app.get((req, res)=> {
+    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'))
+  })
 
 => root of project : npm run server
+
