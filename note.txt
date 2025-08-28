@@ -377,3 +377,39 @@ switch the pages basically do anything on the client side
    launches.set(launch.flightNumber, launch).      // launch.flightNumber = key and launch : all data will attach to that key 
 
 4. module.exports = { launches }
+
+
+@ lauches controller
+const launchesModel  = require('../../models/launches.model')
+function getAllLaunches(req, res){
+   return res.status(200).json(Array.from(launches.values()))
+}
+
+Array.from(launches.values()).  : take sthe iterable values and convets them into an array containing all thoe values 
+
+
+@ launch router
+
+const express = require('express')
+const {launches} = require('../../models/launches.model')
+const launchesRouter = express.Router()
+
+launchesRouter.get('/', getAllLaunches)
+
+module.exports = launchesRouter
+
+@ app.js
+const launchesRouter = require('./routes/launches/launches.router')
+app.use(launchesRouter)
+
+
+
+@ in the client hooks request.js
+
+async function httpGetLaunches(){
+    const response = await fetch(`${API_URL}/Launches`)
+    const fetchedLaunches = await response.json()
+    return fetchedLaunches.sort((a,b)=>{
+        return a.flightNumber - b.flightNumber
+    })
+}
