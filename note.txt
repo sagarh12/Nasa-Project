@@ -413,3 +413,32 @@ async function httpGetLaunches(){
         return a.flightNumber - b.flightNumber
     })
 }
+
+
+# LINE BETWEEN MODEL AND CONTROLLER
+
+controller = works on req and res
+model = data aceess function which control how the data in the model can be written and read 
+
+# Moving Array.from(launches.values()) from controller to model 
+ 
+=> in model 
+function getAllLaunches(){
+    return Array.from(launches.values())
+} 
+
+module.exports = { getAllLaunches } 
+
+@ controllerfunction httpGetAllLaunches(req, res){
+   return res.status(200).json(getAllLaunches)
+}
+
+module.exports = {
+    httpGetAllLaunches 
+}
+
+@ route
+const {httpGetAllLaunches} = require('./launches.controller')
+const launchesRouter = express.Router()
+
+launchesRouter.get('/', httpGetAllLaunches)
