@@ -442,3 +442,5 @@ const {httpGetAllLaunches} = require('./launches.controller')
 const launchesRouter = express.Router()
 
 launchesRouter.get('/', httpGetAllLaunches)
+
+NOTE: similar to this do it for planets as well 
