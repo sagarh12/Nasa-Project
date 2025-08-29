@@ -466,3 +466,32 @@ NOTE: similar to this do it for planets as well
 NOTE: Object.assign(launch, { })     // takes our launch object and assign new properties to it and in case we have old properties then it will override old ones 
 
 => since we already have newFlightnumber, customer, upcoming and success already set then we only need mission, rocket, launchDate and destination from our user 
+
+Now that we have generated a request in the postman by adding mission, dtae, rocket etc
+so we now need our controller to respnd to those request accordingly 
+NOTE: we have added them as post and under body 
+
+@ In launch conroller 
+
+1 .const {getAllLaunches, addNewLaunch } = require('../../models/launches.model')
+
+2. function httpaddNewLaunch(req, res){
+    const launch = req.body 
+    launch.launchDate = new Date(launch.launchDate)
+    addNewLaunch(launch) 
+    res.status(201)                 // 201: means created 
+    }
+
+3. module.exports = { httpGetAllLaunches, httpaddNewLaunch }
+
+@ now setting up the router
+
+1. const {httpGetAllLaunches, httpaddNewLaunch} = require('./launches.controller')
+2. launchesRouter.post('/launches', httpaddNewLaunch)
+
+
+NOTE: instead of putting '/launches' on the controller everytime, similarly we can do it for planets 
+
+@ in the app.js :  app.use('/launches', launchesRouter)
+@ in the router : launchesRouter.post('/', httpaddNewLaunch)
+
