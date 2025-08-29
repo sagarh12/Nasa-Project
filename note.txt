@@ -520,4 +520,83 @@ NOTE : 400 series erros are from client side and 400 specifically means bad requ
     })
  }
 
- 
+ # CONNECTING THE API WE BUILD AND CONNECT IT TO REACT FRONTEND 
+
+
+ @ In request.js
+
+ async function httpSubmitLaunch(launch) {
+  return await fetch(`${API_URL}/Launches`, {
+    method: "post",
+    headers: { "Content-Type": "application/json"},
+    body: JSON.stringify(launch)
+  })
+}
+
+
+NOTE: for making post request with fetch we need to write it as fetch(`API`,{method: "post"})
+    : and since we have body then we must have header for the body 
+     
+
+# ABORTING THE MISSION 
+
+=> we will use DELETE method here, and use ID to locate and delete the request 
+
+@ in request.js
+
+async function httpAbortLaunch(id) {
+  try{
+  return await fetch(`${API_URL}/launches/${id}`, {
+    method: "delete",
+  })
+}
+catch(err){
+  return { ok: false}
+}
+}
+
+
+@ in launches router.js
+
+1. const {httpGetAllLaunches, httpaddNewLaunch, httpAbortLaunch} = require('./launches.controller')
+2. launchesRouter.delete('/launches/:id', httpAbortLaunch)
+
+@ in launches controller
+
+1. const {getAllLaunches, addNewLaunch, existsLaunchWithId, abortLaunchById } = require('../../models/launches.model')
+
+2. function httpAbortLaunch(req, res){
+  const launchId = req.params.id 
+
+  if(!existsLaunchWithId(launchId)){
+    return res.status(201).json({error: "launch id not found"})
+  }
+  
+  const aborted = abortLaunchById(launchId)
+  return res.status(404).json(aborted)
+
+    }
+
+
+    module.exports = {
+    httpGetAllLaunches, httpaddNewLaunch, httpAbortLaunch
+    }
+
+
+@ in launches model 
+
+1. 
+function existsLaunchWithId(launchId){
+    return launches.has(launchId)
+}
+
+2. 
+function abortLaunchById(launchId){
+    const aborted = launches.get(launchId);
+    aborted.upcoming = false;
+    aborted.success= false;
+    return aborted;
+}
+
+
+module.exports = { getAllLaunches, addNewLaunch, existsLaunchWithId, abortLaunchById }  
