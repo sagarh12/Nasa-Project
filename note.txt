@@ -444,3 +444,25 @@ const launchesRouter = express.Router()
 launchesRouter.get('/', httpGetAllLaunches)
 
 NOTE: similar to this do it for planets as well 
+
+# CREATING NEW LAUNCHES 
+
+@ inside launches model 
+
+1. let latestFlightNumber = 100;      //here we set it 100 as this was our last launch so we need to have new lauches satring after it 
+
+2. function addNewLaunch(launch){
+    latestFlightNumber++;
+    launches.set(latestFlightNumber, Object.assign(launch, {
+    flightNumber : latestFlightNumber,
+    upcoming: true, 
+    customers : ['ZTM', 'NASA '],
+    success : true, 
+     }))
+    }
+
+3. module.exports = { getAllLaunches, addNewLaunch }  
+
+NOTE: Object.assign(launch, { })     // takes our launch object and assign new properties to it and in case we have old properties then it will override old ones 
+
+=> since we already have newFlightnumber, customer, upcoming and success already set then we only need mission, rocket, launchDate and destination from our user 
