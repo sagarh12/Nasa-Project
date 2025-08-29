@@ -495,3 +495,29 @@ NOTE: instead of putting '/launches' on the controller everytime, similarly we c
 @ in the app.js :  app.use('/launches', launchesRouter)
 @ in the router : launchesRouter.post('/', httpaddNewLaunch)
 
+
+# Making launch APi a little for resilient 
+like in case someone enters wrong input date 
+
+=> tackling the situation of missing data 
+
+@ inside launch controller
+
+1. inside function httpaddNewLaunch
+ if(!launch.mission || !launch.rocket || !launch.launchDate || !launch.destination){
+    return res.status(400).json({error: "missing some property"})
+}
+
+NOTE : 400 series erros are from client side and 400 specifically means bad request
+       500 series : server errors 
+
+
+=> tackling invalid date format 
+
+ if(launch.launchDate.toString() === ''Invalid Date'){
+    return res.status(400).json({
+        error: "invalid date"
+    })
+ }
+
+ 
