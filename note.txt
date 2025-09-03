@@ -566,7 +566,7 @@ catch(err){
 1. const {getAllLaunches, addNewLaunch, existsLaunchWithId, abortLaunchById } = require('../../models/launches.model')
 
 2. function httpAbortLaunch(req, res){
-  const launchId = req.params.id 
+  const launchId = Number(req.params.id)  
 
   if(!existsLaunchWithId(launchId)){
     return res.status(201).json({error: "launch id not found"})
@@ -578,7 +578,7 @@ catch(err){
     }
 
 
-    module.exports = {
+    module.exports = { 
     httpGetAllLaunches, httpaddNewLaunch, httpAbortLaunch
     }
 
@@ -600,3 +600,8 @@ function abortLaunchById(launchId){
 
 
 module.exports = { getAllLaunches, addNewLaunch, existsLaunchWithId, abortLaunchById }  
+
+
+# NOW WE WILL CONNECT IT TO DATABASE 
+
+=> here we will use monogoDB

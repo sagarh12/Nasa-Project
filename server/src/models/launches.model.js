@@ -40,5 +40,4 @@ function abortLaunchById(launchId){
     return aborted;
 }
 
-module.exports = { existsLaunchWithId, getAllLaunches, addNewLaunch, 
-    , abortLaunchById }  
+module.exports = { existsLaunchWithId, getAllLaunches, addNewLaunch, abortLaunchById }  

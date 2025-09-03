@@ -24,7 +24,7 @@ if(!launch.mission || !launch.rocket || !launch.launchDate || !launch.destinatio
 }
 
 function httpAbortLaunch(req, res){
-  const launchId = req.params.id 
+  const launchId = Number(req.params.id) 
 
   if(!existsLaunchWithId(launchId)){
     return res.status(201).json({error: "launch id not found"})
